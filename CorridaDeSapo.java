@@ -11,30 +11,36 @@ class sapos extends Thread{
         this.saltomax = 30;
     }
     void show(int aux){
-        System.out.println("O "+nome+" pulou "+aux+" casas    Percorreu "+distpercorrida);
+        if(distpercorrida<distpercurso){
+            System.out.println("O "+nome+" pulou "+aux+" casas    Percorreu "+distpercorrida+" em "+numsaltos+" salto(s)");
+        }
+        else{
+            System.out.println("O "+nome+" chegou ao fim!");
+        }
     }
     void jump(){
-        int aux = (int) Math.random()*saltomax;
+        int aux = (int) (Math.random()*saltomax);
         distpercorrida+=aux;
+        numsaltos++;
         show(aux);
     }
-    
-
+    public void run(){
+        while (distpercorrida<distpercurso) {
+            jump();
+        }
+    }
 }
 
 class CorridaDeSapos {
-
-
     public static void main(String[] args) {
         final int numsapos = 5;
-        final int distpercurso = 500;
+        final int distpercurso = 150;
         sapos[] s = new sapos[numsapos];
         for (int i=0;i<s.length;i++){
-            s[i] = new sapos("Sapo "+i,distpercurso);
+            s[i] = new sapos("Sapo "+(i+1),distpercurso);
         }
-
-
+        for (int i=0;i<s.length;i++){
+            s[i].start();
+        }
     }
-
-
 }

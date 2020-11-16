@@ -3,7 +3,9 @@ import java.lang.Math;
 class sapos extends Thread{
     String nome;
     int distpercurso,distpercorrida,numsaltos,saltomax;
+    static int colocacao=1;
     sapos(String nome,int distpercurso){
+        super(nome);
         this.nome = nome;
         this.distpercurso = distpercurso;
         this.distpercorrida = 0;
@@ -15,7 +17,8 @@ class sapos extends Thread{
             System.out.println("O "+nome+" pulou "+aux+" casas    Percorreu "+distpercorrida+" em "+numsaltos+" salto(s)");
         }
         else{
-            System.out.println("O "+nome+" chegou ao fim!");
+            System.out.println("O "+nome+" chegou ao fim, em "+colocacao+" lugar, com "+numsaltos+" saltos");
+            colocacao++;
         }
     }
     void jump(){
@@ -24,9 +27,16 @@ class sapos extends Thread{
         numsaltos++;
         show(aux);
     }
+    public void rest(){
+        
+        sapos.yield();
+        //assim evita que grandes "blocos" de apenas 1 sapo pule várias vezes seguidas
+        
+    }
     public void run(){
         while (distpercorrida<distpercurso) {
             jump();
+            rest();
         }
     }
 }
